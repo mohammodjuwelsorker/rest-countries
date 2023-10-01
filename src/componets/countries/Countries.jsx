@@ -5,7 +5,9 @@ import './Countries.css'
 
 const Countries = () => {
     const [countries, setCountries] = useState([]);
-
+    const [visitedCountries, setVisitedCountries] = useState([]);
+    
+    
     useEffect(() => {
 
         fetch('https://restcountries.com/v3.1/all')
@@ -14,13 +16,28 @@ const Countries = () => {
 
     }, []);
 
+    const visitedCountriesHandler = country => {
+        const newVisitedCountries = [...visitedCountries, country]
+        setVisitedCountries(newVisitedCountries)
+    }
+
+
     return (
         <div>
             <h3>countries: {countries.length}</h3>
+            <div>
+                <h3>visited countries length: {visitedCountries.length}</h3>
+                <ul>
+                    {
+                        visitedCountries.map(country => <li key={country.cca3}>{country.name?.common}</li>)
+                    }
+                </ul>
+            </div>
             <div className="countries-grid">
                 {
-                    countries.map(country => <Country
+                    countries.map(country => <Country 
                         key={country.cca3}
+                        visitedCountriesHandler={visitedCountriesHandler}
                         country={country}></Country>)
 
                 }

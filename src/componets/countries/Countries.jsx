@@ -6,6 +6,7 @@ import './Countries.css'
 const Countries = () => {
     const [countries, setCountries] = useState([]);
     const [visitedCountries, setVisitedCountries] = useState([]);
+    const [visitedFlags, setVisitedFlags] = useState([]);
     
     
     useEffect(() => {
@@ -21,6 +22,13 @@ const Countries = () => {
         setVisitedCountries(newVisitedCountries)
     }
 
+    const addVisitedHandler = flag => {
+        console.log('adding the country flag see in list element')
+        const newVisitedFlags = [...visitedFlags, flag]
+        setVisitedFlags(newVisitedFlags)
+    }
+
+
 
     return (
         <div>
@@ -33,11 +41,18 @@ const Countries = () => {
                     }
                 </ul>
             </div>
+            <div>
+                <h3>country flag</h3>
+                {
+                    visitedFlags.map((flag, index) => <img key={index} src={flag}/>)
+                }
+            </div>
             <div className="countries-grid">
                 {
                     countries.map(country => <Country 
                         key={country.cca3}
                         visitedCountriesHandler={visitedCountriesHandler}
+                        addVisitedHandler={addVisitedHandler}
                         country={country}></Country>)
 
                 }
